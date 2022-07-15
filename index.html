@@ -46,9 +46,9 @@
 		xhr.addEventListener('load', () => {
 			console.log(xhr.status);
 			console.log(xhr.responseText);
+			FillContryToSelect(xhr.responseText);
 			if (xhr.status !== 200 || xhr.status !== 0) return;
 			//document.write(xhr.responseText);
-			FillContryToSelect(xhr.responseText);
 			
 		});
 		xhr.send();
@@ -65,8 +65,8 @@
 		};
 	}
     function UploadProcess() {
-		//read('data/test.xlsx');
-		read('data/123.txt');
+		read('data/test.xlsx');
+		//read('data/123.txt');
 		console.log("load data")
         ////Reference the FileUpload element.
         //var fileUpload = document.getElementById("fileUpload");
