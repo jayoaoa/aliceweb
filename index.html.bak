@@ -41,17 +41,8 @@
 	
 	function read(path) {
 		console.log(path);
-		const xhr = new XMLHttpRequest();
-		xhr.open('GET', path, false);
-        xhr.responseType = 'arraybuffer';
-		xhr.addEventListener('load', () => {
-			console.log(xhr.status);
-			FillContryToSelect(xhr.responseText);
-			if (xhr.status !== 200 || xhr.status !== 0) return;
-			//document.write(xhr.responseText);
-			
-		});
-		xhr.send();
+		const url = path;
+		const data = await (await fetch(url)).arrayBuffer();
 	}
 	function CalculatePrice() {
 		GetPriceFromExcel(excel_raw_data)
