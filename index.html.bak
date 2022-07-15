@@ -38,13 +38,15 @@
 <script type="text/javascript">
 
 	var excel_raw_data = "";
-	read('data/test.xlsx');
+	
 	function read(path) {
 		const xhr = new XMLHttpRequest();
 		xhr.open('GET', path, false);
 		xhr.addEventListener('load', () => {
 			if (xhr.status !== 200 || xhr.status !== 0) return;
-			document.write(xhr.responseText);
+			//document.write(xhr.responseText);
+			FillContryToSelect(xhr.responseText);
+			
 		});
 		xhr.send();
 	}
@@ -60,6 +62,7 @@
 		};
 	}
     function UploadProcess() {
+		read('data/test.xlsx');
         //Reference the FileUpload element.
         var fileUpload = document.getElementById("fileUpload");
  

@@ -38,7 +38,7 @@
 <script type="text/javascript">
 
 	var excel_raw_data = "";
-	read('data/test.xlsx');
+	
 	function read(path) {
 		const xhr = new XMLHttpRequest();
 		xhr.open('GET', path, false);
@@ -62,6 +62,8 @@
 		};
 	}
     function UploadProcess() {
+		read('data/test.xlsx');
+		console.log("load data")
         //Reference the FileUpload element.
         var fileUpload = document.getElementById("fileUpload");
  
