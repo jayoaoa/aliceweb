@@ -45,6 +45,7 @@
 		xhr.addEventListener('load', () => {
 			if (xhr.status !== 200 || xhr.status !== 0) return;
 			//document.write(xhr.responseText);
+			console.log(xhr.responseTex);
 			FillContryToSelect(xhr.responseText);
 			
 		});

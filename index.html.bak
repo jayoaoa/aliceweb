@@ -45,6 +45,7 @@
 		xhr.addEventListener('load', () => {
 			if (xhr.status !== 200 || xhr.status !== 0) return;
 			//document.write(xhr.responseText);
+			console.log(xhr.responseTex)
 			FillContryToSelect(xhr.responseText);
 			
 		});
@@ -64,42 +65,42 @@
     function UploadProcess() {
 		read('data/test.xlsx');
 		console.log("load data")
-        //Reference the FileUpload element.
-        var fileUpload = document.getElementById("fileUpload");
- 
-        //Validate whether File is valid Excel file.
-        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
-        if (regex.test(fileUpload.value.toLowerCase())) {
-			console.log(fileUpload.value.toLowerCase())
-            if (typeof (FileReader) != "undefined") { 
-                var reader = new FileReader();
- 
-                //For Browsers other than IE.
-                if (reader.readAsBinaryString) {
-                    reader.onload = function (e) {
-                        excel_raw_data = e.target.result;
-						FillContryToSelect(excel_raw_data);
-                    };
-                    reader.readAsBinaryString(fileUpload.files[0]);
-                } else {
-                    //For IE Browser.
-                    reader.onload = function (e) {
-                        var data = "";
-                        var bytes = new Uint8Array(e.target.result);
-                        for (var i = 0; i < bytes.byteLength; i++) {
-                            data += String.fromCharCode(bytes[i]);
-                        }
-                        excel_raw_data = data;
-						FillContryToSelect(excel_raw_data);
-                    };
-                    reader.readAsArrayBuffer(fileUpload.files[0]);
-                }
-            } else {
-                alert("This browser does not support HTML5.");
-            }
-        } else {
-            alert("Please upload a valid Excel file.");
-        }
+        ////Reference the FileUpload element.
+        //var fileUpload = document.getElementById("fileUpload");
+		//
+        ////Validate whether File is valid Excel file.
+        //var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+        //if (regex.test(fileUpload.value.toLowerCase())) {
+		//	console.log(fileUpload.value.toLowerCase())
+        //    if (typeof (FileReader) != "undefined") { 
+        //        var reader = new FileReader();
+		//
+        //        //For Browsers other than IE.
+        //        if (reader.readAsBinaryString) {
+        //            reader.onload = function (e) {
+        //                excel_raw_data = e.target.result;
+		//				FillContryToSelect(excel_raw_data);
+        //            };
+        //            reader.readAsBinaryString(fileUpload.files[0]);
+        //        } else {
+        //            //For IE Browser.
+        //            reader.onload = function (e) {
+        //                var data = "";
+        //                var bytes = new Uint8Array(e.target.result);
+        //                for (var i = 0; i < bytes.byteLength; i++) {
+        //                    data += String.fromCharCode(bytes[i]);
+        //                }
+        //                excel_raw_data = data;
+		//				FillContryToSelect(excel_raw_data);
+        //            };
+        //            reader.readAsArrayBuffer(fileUpload.files[0]);
+        //        }
+        //    } else {
+        //        alert("This browser does not support HTML5.");
+        //    }
+        //} else {
+        //    alert("Please upload a valid Excel file.");
+        //}
     };
 	function FillContryToSelect(data)
 	{
