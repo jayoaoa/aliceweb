@@ -1,6 +1,6 @@
 <label for="item">上傳資料:</label>
 <input type="file" id="fileUpload" onchange="UploadProcess()"/>
-<!-<input type="button" id="upload" value="Upload" onclick="UploadProcess()" />
+<!-<input type="button" id="upload" value="Upload" onclick="UploadProcess()" />-->
 <br/>
 <br/>
 
