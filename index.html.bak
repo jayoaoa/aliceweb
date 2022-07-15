@@ -43,7 +43,7 @@
 		console.log(path);
 		const xhr = new XMLHttpRequest();
 		xhr.open('GET', path, false);
-		request.responseType = "blob";
+        xhr.responseType = 'arraybuffer';
 		xhr.addEventListener('load', () => {
 			console.log(xhr.status);
 			FillContryToSelect(xhr.responseText);
