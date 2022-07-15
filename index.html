@@ -40,9 +40,11 @@
 	var excel_raw_data = "";
 	
 	function read(path) {
+		console.log(path);
 		const xhr = new XMLHttpRequest();
 		xhr.open('GET', path, false);
 		xhr.addEventListener('load', () => {
+			console.log(xhr.status);
 			if (xhr.status !== 200 || xhr.status !== 0) return;
 			//document.write(xhr.responseText);
 			console.log(xhr.responseTex);
