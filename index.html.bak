@@ -47,7 +47,7 @@
 			console.log(xhr.status);
 			if (xhr.status !== 200 || xhr.status !== 0) return;
 			//document.write(xhr.responseText);
-			console.log(xhr.responseTex);
+			console.log(xhr.responseText);
 			FillContryToSelect(xhr.responseText);
 			
 		});
