@@ -45,10 +45,10 @@
 		request.open("GET", path);       
 		request.responseType = "blob";
 		request.onload = function() {
-		  // set `blob` `type` to `"text/html"`
 		  var blob = new Blob([this.response], {type:"text/html"});
-		  var url = URL.createObjectURL(blob);
-		  var w = window.open(url);
+		  FillContryToSelect(excel_raw_data);
+		  //var url = URL.createObjectURL(blob);
+		  //var w = window.open(url);
 		}
 		request.send(); 
 	}
