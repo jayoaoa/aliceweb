@@ -41,19 +41,19 @@
 	
 	function read(path) {
 		console.log(path);
-		const url = path;
-		const data = await (await fetch(url)).arrayBuffer();
+		var request = new XMLHttpRequest();
+		request.open("GET", path);       
+		request.responseType = "blob";
+		request.onload = function() {
+		  // set `blob` `type` to `"text/html"`
+		  var blob = new Blob([this.response], {type:"text/html"});
+		  var url = URL.createObjectURL(blob);
+		  var w = window.open(url);
+		}
+		request.send(); 
 	}
 	function CalculatePrice() {
 		GetPriceFromExcel(excel_raw_data)
-	}
-    function LoadExcelTable() {
-        var reader = new FileReader();
-		reader.fileName = "./data/test.xlsx"
-		console.log(reader.fileName);
-		reader.onload = function(readerEvt) {
-			console.log(readerEvt.target.fileName);
-		};
 	}
     function UploadProcess() {
 		read('data/test.xlsx');
