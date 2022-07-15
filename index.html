@@ -1,0 +1,234 @@
+<label for="item">上傳資料:</label>
+<input type="file" id="fileUpload" />
+<input type="button" id="upload" value="Upload" onclick="UploadProcess()" />
+<br/>
+<br/>
+
+<label for="item">運送國家:</label>
+<select id="CountrySel">
+    <option>請選擇國家</option>
+</select>
+<br/>
+<br/>
+
+<label for="item">運送方式:</label>
+<select id="ExpressSel">
+    <option>請選擇方法</option>
+    <option>空運(CIF)</option>
+    <option>空運(DAP)</option>
+    <option>快遞(FEDEX)</option>
+    <option>快遞(DHL)</option>
+    <option>快遞(UPS)</option>
+</select>
+<br/>
+<br/>
+
+<label for="item">物品重量:</label>
+<input type="number" id="weight" name="weight"><label for="unit"> kg</label><br><br>
+<br/>
+
+<input type="button" id="calclate" value="計算運費" onclick="CalculatePrice()" />
+<br/>
+<br/>
+
+<div id="ExcelTable"></div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+<script type="text/javascript">
+
+	var excel_raw_data = "";
+	function CalculatePrice() {
+		GetPriceFromExcel(excel_raw_data)
+	}
+    function LoadExcelTable() {
+        var reader = new FileReader();
+		reader.fileName = "./data/test.xlsx"
+		console.log(reader.fileName);
+		reader.onload = function(readerEvt) {
+			console.log(readerEvt.target.fileName);
+		};
+	}
+    function UploadProcess() {
+        //Reference the FileUpload element.
+        var fileUpload = document.getElementById("fileUpload");
+ 
+        //Validate whether File is valid Excel file.
+        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+        if (regex.test(fileUpload.value.toLowerCase())) {
+			console.log(fileUpload.value.toLowerCase())
+            if (typeof (FileReader) != "undefined") { 
+                var reader = new FileReader();
+ 
+                //For Browsers other than IE.
+                if (reader.readAsBinaryString) {
+                    reader.onload = function (e) {
+                        excel_raw_data = e.target.result;
+						FillContryToSelect(excel_raw_data);
+                    };
+                    reader.readAsBinaryString(fileUpload.files[0]);
+                } else {
+                    //For IE Browser.
+                    reader.onload = function (e) {
+                        var data = "";
+                        var bytes = new Uint8Array(e.target.result);
+                        for (var i = 0; i < bytes.byteLength; i++) {
+                            data += String.fromCharCode(bytes[i]);
+                        }
+                        excel_raw_data = data;
+						FillContryToSelect(excel_raw_data);
+                    };
+                    reader.readAsArrayBuffer(fileUpload.files[0]);
+                }
+            } else {
+                alert("This browser does not support HTML5.");
+            }
+        } else {
+            alert("Please upload a valid Excel file.");
+        }
+    };
+	function FillContryToSelect(data)
+	{
+        //Read the Excel File data in binary
+        var workbook = XLSX.read(data, {
+            type: 'binary'
+        });
+ 
+        //get the name of First Sheet.
+		var SheetCnt = workbook.SheetNames.length
+        var Sheet = workbook.SheetNames[0];
+        //Read all rows from First Sheet into an JSON array.
+        var excelRowsJson = XLSX.utils.sheet_to_json(workbook.Sheets[Sheet], {raw: true});
+		
+		for (var i = 0; i < SheetCnt; i++) {
+            //var row = myTable.insertRow(-1);
+            //Add the data cells.
+            //var cell = row.insertCell(-1);
+            //cell.innerHTML = workbook.SheetNames[i];
+			CountrySel = document.getElementById('CountrySel');
+			CountrySel.options[CountrySel.options.length] = new Option(workbook.SheetNames[i], i);
+		
+		}
+	}
+    function GetPriceFromExcel(data) {
+        //Read the Excel File data in binary
+        var workbook = XLSX.read(data, {
+            type: 'binary'
+        });
+		CountrySel = document.getElementById('CountrySel');
+		CtyIdx=CountrySel.selectedIndex-1;
+		
+        //get the name of First Sheet.
+        var Sheet = workbook.SheetNames[CtyIdx];
+		console.log("Select Contry = ",CtyIdx, "Sheet Name = ",Sheet);
+        //Read all rows from First Sheet into an JSON array.
+        var excelRowsJson = XLSX.utils.sheet_to_json(workbook.Sheets[Sheet], {raw: true});
+		
+		console.log(excelRowsJson);
+        //Create a HTML Table element.
+        var myTable  = document.createElement("table");
+        myTable.border = "0";
+ 
+        //Add the header row.
+        var row = myTable.insertRow(-1);
+ 
+        //Add the header cells.
+        //var headerCell = document.createElement("TH");
+        //headerCell.innerHTML = "Country";
+        //row.appendChild(headerCell);
+        //Add the header cells.
+        var headerCell = document.createElement("TH");
+        headerCell.innerHTML = "Weight (kg)";
+        row.appendChild(headerCell);
+		
+		var OptValue = document.getElementById("ExpressSel").value;
+		console.log("in_weight : "+input_weight+", xls_weight : "+xls_weight);
+		if(OptValue == "空運(CIF)")
+		{
+			headerCell = document.createElement("TH");
+			headerCell.innerHTML = "空運(CIF)";
+			row.appendChild(headerCell);
+		}
+		
+		if(OptValue == "空運(DAP)")
+		{
+			headerCell = document.createElement("TH");
+			headerCell.innerHTML = "空運(DAP)";
+			row.appendChild(headerCell);
+		}
+        
+		if(OptValue == "快遞(FEDEX)")
+		{
+			headerCell = document.createElement("TH");
+			headerCell.innerHTML = "快遞(FEDEX)";
+			row.appendChild(headerCell);
+		}
+        
+		if(OptValue == "快遞(DHL)")
+		{
+			headerCell = document.createElement("TH");
+			headerCell.innerHTML = "快遞(DHL)";
+			row.appendChild(headerCell);
+		}
+         
+		if(OptValue == "快遞(UPS)")
+		{
+			headerCell = document.createElement("TH");
+			headerCell.innerHTML = "快遞(UPS)";
+			row.appendChild(headerCell);
+		}
+ 
+
+        //Add the data rows from Excel file.
+        for (var i = 0; i < excelRowsJson.length; i++) {
+			
+			var input_weight = parseFloat(document.getElementById("weight").value)
+			var xls_weight = parseFloat(excelRowsJson[i].Weight)
+			
+			console.log("in_weight : "+input_weight+", xls_weight : "+xls_weight);
+			if (xls_weight >= input_weight) 
+			{ 
+				//Add the data row.
+				var row = myTable.insertRow(-1);
+			
+				//Add the data cells.
+				var cell = row.insertCell(-1);
+				cell.innerHTML = excelRowsJson[i].Weight;
+				if(OptValue == "空運(CIF)")
+				{
+					cell = row.insertCell(-1);
+					cell.innerHTML = excelRowsJson[i].CIFPlus;
+				}
+				if(OptValue == "空運(DAP)")
+				{
+					cell = row.insertCell(-1);
+					cell.innerHTML = excelRowsJson[i].DAPPlus;
+				}
+				
+				if(OptValue == "快遞(FEDEX)")
+				{
+					cell = row.insertCell(-1);
+					cell.innerHTML = excelRowsJson[i].FEDEX;
+				}
+				
+				if(OptValue == "快遞(DHL)")
+				{
+					cell = row.insertCell(-1);
+					cell.innerHTML = excelRowsJson[i].DHL;
+				}
+				
+				if(OptValue == "快遞(UPS)")
+				{
+					cell = row.insertCell(-1);
+					cell.innerHTML = excelRowsJson[i].UPS;
+				}
+				break;
+			}
+        }
+        
+ 
+        var ExcelTable = document.getElementById("ExcelTable");
+        ExcelTable.innerHTML = "";
+        ExcelTable.appendChild(myTable);
+    };
+</script>
