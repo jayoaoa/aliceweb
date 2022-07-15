@@ -45,7 +45,7 @@
 		request.open("GET", path);       
 		request.responseType = "blob";
 		request.onload = function() {
-			const jrexRequestData = new Uint8Array(jrexRequestXlsFile.response)
+			const jrexRequestData = new Uint8Array(request.response)
 			FillContryToSelect(jrexRequestData);
 		  //var url = URL.createObjectURL(blob);
 		  //var w = window.open(url);
