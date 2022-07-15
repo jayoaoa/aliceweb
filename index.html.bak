@@ -45,8 +45,13 @@
 		request.open("GET", path);       
 		request.responseType = "arraybuffer";
 		request.onload = function() {
+			/* convert data to binary string */
+			var data = new Uint8Array(request.response);
+			var arr = new Array();
+			for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+			var bstr = arr.join("");
 			//const jrexRequestData = new Uint8Array(request.response)
-			FillContryToSelect(jrexRequestData);
+			FillContryToSelect();
 		  //var url = URL.createObjectURL(blob);
 		  //var w = window.open(url);
 		}
