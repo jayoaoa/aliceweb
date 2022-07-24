@@ -1674,7 +1674,7 @@ input[type="radio"] .styled:checked+label::after {
 .form-control:hover {
      box-shadow: none;
      color: #fff;
-     background-color: 	#408080;
+     background-color: #408080;
 }
 .form-control:focus {
      border-color: #c2c4c4 !important;

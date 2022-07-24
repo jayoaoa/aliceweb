@@ -189,8 +189,7 @@
 				var row = myTable.insertRow(-1);
 			
 				var cell = row.insertCell(-1);
-				var OptValue = document.getElementById("CountrySel1").value;
-				cell.innerHTML = OptValue;
+				cell.innerHTML = Sheet;
 
 				var cell = row.insertCell(-1);
 				OptValue = document.getElementById("ExpressSel1").value;
@@ -289,7 +288,7 @@
 				var row = myTable.insertRow(-1);
 			
 				var cell = row.insertCell(-1);
-				var OptValue = document.getElementById("CountrySel2").value;
+				var OptValue = document.getElementById("CountrySel2").innerHTML;
 				cell.innerHTML = OptValue;
 
 				var cell = row.insertCell(-1);
@@ -333,7 +332,6 @@
         
  
         var ExcelTable = document.getElementById("ExcelTable");
-        ExcelTable.innerHTML = "";
         ExcelTable.appendChild(myTable);
     };
 	
