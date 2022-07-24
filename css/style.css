@@ -2285,7 +2285,7 @@ ul.location_icon span {
 ------------------------------------- */
 table {
   border-collapse: collapse; /* 表格邊框合併 */
-  width: 100%; /* 寬度 100% */
+  width: 50%; /* 寬度 100% */
   background-color: white; /* 背景白色 */
 }
 
