@@ -2284,6 +2284,7 @@ ul.location_icon span {
 /*  table
 ------------------------------------- */
 table {
+  table-layout: fixed;
   border-collapse: collapse; /* 表格邊框合併 */
   width: 50%; /* 寬度 100% */
   background-color: white; /* 背景白色 */
@@ -2302,7 +2303,6 @@ table th {
 
 table td {
   border-right: 1px solid #f1f1f1; /* 表格 td 右邊框顏色 */
-  width: 12px;
 }
 
 table tr:nth-child(even) {
