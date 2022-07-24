@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <!-- style css -->
+      <link rel="stylesheet" href="css/style.css">
+      <link rel="stylesheet" href="css/bootstrap.min.css">
+      <link rel="stylesheet" href="css/responsive.css">
+   </head>
+<section >
+<div class="banner-main">
+	<img src="images/banner.jpg" alt="#"/>
+		<div class="container">
+				<div class="text-bg">
+                  <div class="container">
+                     <form class="main-form">
+                        <h3>計算運費</h3>
+                        <div class="row">
+							<div class="col-md-9">
+								<div class="row">
+									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+										<label for="item">運送國家:</label>
+										<select id="CountrySel" class="form-control">
+											<option>請選擇國家</option>
+										</select>
+									</div>
+
+									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+										<label for="item">運送方式:</label>
+										<select id="ExpressSel" class="form-control">
+											<option>請選擇方法</option>
+											<option>空運(CIF)</option>
+											<option>空運(DAP)</option>
+											<option>快遞(FEDEX)</option>
+											<option>快遞(DHL)</option>
+											<option>快遞(UPS)</option>
+										</select>
+									</div>
+
+									<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+										<label for="item">物品重量 (kg):</label>
+										<input type="number" id="weight" name="weight" class="form-control">
+									</div>
+
+									<div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
+										<input type="button" id="calclate" value="+" onclick="NewInput()" class="form-control"/>
+									</div>
+								</div>
+							</div>
+							<div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+								<label for="item">.</label>
+								<input type="button" id="calclate" value="計算運費" onclick="CalculatePrice()" class="form-control"/>
+							</div>
+						</div>
+						<div id="ExcelTable"></div>
+                    </form>
+                </div>
+			</div>
+		</div>
+</div>
+</section>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+<script type="text/javascript">
+
+	var excel_raw_data = "";
+	var total_row = 1;
+	read('data/test.xlsx');
+	function read(path) {
+		console.log("read data:",path);
+		var request = new XMLHttpRequest();
+		request.open("GET", path);       
+		request.responseType = "arraybuffer";
+		request.onload = function() {
+			/* convert data to binary string */
+			var data = new Uint8Array(request.response);
+			var arr = new Array();
+			for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+			var bstr = arr.join("");
+			excel_raw_data = bstr;
+			FillContryToSelect(bstr);
+		}
+		request.send(); 
+	}
+	function CalculatePrice() {
+		GetPriceFromExcel(excel_raw_data)
+	}
+	function FillContryToSelect(data)
+	{
+        //Read the Excel File data in binary
+        var workbook = XLSX.read(data, {
+            type: 'binary'
+        });
+ 
+        //get the name of First Sheet.
+		var SheetCnt = workbook.SheetNames.length
+        var Sheet = workbook.SheetNames[0];
+        //Read all rows from First Sheet into an JSON array.
+        var excelRowsJson = XLSX.utils.sheet_to_json(workbook.Sheets[Sheet], {raw: true});
+		
+		for (var i = 0; i < SheetCnt; i++) {
+            //var row = myTable.insertRow(-1);
+            //Add the data cells.
+            //var cell = row.insertCell(-1);
+            //cell.innerHTML = workbook.SheetNames[i];
+			CountrySel = document.getElementById('CountrySel');
+			CountrySel.options[CountrySel.options.length] = new Option(workbook.SheetNames[i], i);
+		
+		}
+	}
+    function GetPriceFromExcel(data) {
+        //Read the Excel File data in binary
+        var workbook = XLSX.read(data, {
+            type: 'binary'
+        });
+		CountrySel = document.getElementById('CountrySel');
+		CtyIdx=CountrySel.selectedIndex-1;
+		
+        //get the name of First Sheet.
+        var Sheet = workbook.SheetNames[CtyIdx];
+		console.log("Select Contry = ",CtyIdx, "Sheet Name = ",Sheet);
+        //Read all rows from First Sheet into an JSON array.
+        var excelRowsJson = XLSX.utils.sheet_to_json(workbook.Sheets[Sheet], {raw: true});
+		
+		console.log(excelRowsJson);
+        //Create a HTML Table element.
+        var myTable  = document.createElement("table");
+        myTable.border = "0";
+ 
+        //Add the header row.
+        var row = myTable.insertRow(-1);
+ 
+        //Add the header cells.
+        //var headerCell = document.createElement("TH");
+        //headerCell.innerHTML = "Country";
+        //row.appendChild(headerCell);
+        //Add the header cells.
+        var headerCell = document.createElement("TH");
+        headerCell.innerHTML = "Weight (kg)";
+        row.appendChild(headerCell);
+		
+		var OptValue = document.getElementById("ExpressSel").value;
+		console.log("in_weight : "+input_weight+", xls_weight : "+xls_weight);
+		if(OptValue == "空運(CIF)")
+		{
+			headerCell = document.createElement("TH");
+			headerCell.innerHTML = "空運(CIF)";
+			row.appendChild(headerCell);
+		}
+		
+		if(OptValue == "空運(DAP)")
+		{
+			headerCell = document.createElement("TH");
+			headerCell.innerHTML = "空運(DAP)";
+			row.appendChild(headerCell);
+		}
+        
+		if(OptValue == "快遞(FEDEX)")
+		{
+			headerCell = document.createElement("TH");
+			headerCell.innerHTML = "快遞(FEDEX)";
+			row.appendChild(headerCell);
+		}
+        
+		if(OptValue == "快遞(DHL)")
+		{
+			headerCell = document.createElement("TH");
+			headerCell.innerHTML = "快遞(DHL)";
+			row.appendChild(headerCell);
+		}
+         
+		if(OptValue == "快遞(UPS)")
+		{
+			headerCell = document.createElement("TH");
+			headerCell.innerHTML = "快遞(UPS)";
+			row.appendChild(headerCell);
+		}
+ 
+
+        //Add the data rows from Excel file.
+        for (var i = 0; i < excelRowsJson.length; i++) {
+			
+			var input_weight = parseFloat(document.getElementById("weight").value)
+			var xls_weight = parseFloat(excelRowsJson[i].Weight)
+			
+			console.log("in_weight : "+input_weight+", xls_weight : "+xls_weight);
+			if (xls_weight >= input_weight) 
+			{ 
+				//Add the data row.
+				var row = myTable.insertRow(-1);
+			
+				//Add the data cells.
+				var cell = row.insertCell(-1);
+				cell.innerHTML = excelRowsJson[i].Weight;
+				if(OptValue == "空運(CIF)")
+				{
+					cell = row.insertCell(-1);
+					cell.innerHTML = excelRowsJson[i].CIFPlus;
+				}
+				if(OptValue == "空運(DAP)")
+				{
+					cell = row.insertCell(-1);
+					cell.innerHTML = excelRowsJson[i].DAPPlus;
+				}
+				
+				if(OptValue == "快遞(FEDEX)")
+				{
+					cell = row.insertCell(-1);
+					cell.innerHTML = excelRowsJson[i].FEDEX;
+				}
+				
+				if(OptValue == "快遞(DHL)")
+				{
+					cell = row.insertCell(-1);
+					cell.innerHTML = excelRowsJson[i].DHL;
+				}
+				
+				if(OptValue == "快遞(UPS)")
+				{
+					cell = row.insertCell(-1);
+					cell.innerHTML = excelRowsJson[i].UPS;
+				}
+				break;
+			}
+        }
+        
+ 
+        var ExcelTable = document.getElementById("ExcelTable");
+        ExcelTable.innerHTML = "";
+        ExcelTable.appendChild(myTable);
+    };
+</script>
