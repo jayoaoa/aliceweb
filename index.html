@@ -164,46 +164,17 @@
         //row.appendChild(headerCell);
         //Add the header cells.
         var headerCell = document.createElement("TH");
-        headerCell.innerHTML = "Weight (kg)";
+        headerCell.innerHTML = "國家";
         row.appendChild(headerCell);
-		
-		var OptValue = document.getElementById("ExpressSel1").value;
-		console.log("in_weight : "+input_weight+", xls_weight : "+xls_weight);
-		if(OptValue == "空運(CIF)")
-		{
-			headerCell = document.createElement("TH");
-			headerCell.innerHTML = "空運(CIF)";
-			row.appendChild(headerCell);
-		}
-		
-		if(OptValue == "空運(DAP)")
-		{
-			headerCell = document.createElement("TH");
-			headerCell.innerHTML = "空運(DAP)";
-			row.appendChild(headerCell);
-		}
-        
-		if(OptValue == "快遞(FEDEX)")
-		{
-			headerCell = document.createElement("TH");
-			headerCell.innerHTML = "快遞(FEDEX)";
-			row.appendChild(headerCell);
-		}
-        
-		if(OptValue == "快遞(DHL)")
-		{
-			headerCell = document.createElement("TH");
-			headerCell.innerHTML = "快遞(DHL)";
-			row.appendChild(headerCell);
-		}
-         
-		if(OptValue == "快遞(UPS)")
-		{
-			headerCell = document.createElement("TH");
-			headerCell.innerHTML = "快遞(UPS)";
-			row.appendChild(headerCell);
-		}
- 
+        var headerCell = document.createElement("TH");
+        headerCell.innerHTML = "運送方式";
+        row.appendChild(headerCell);
+        var headerCell = document.createElement("TH");
+        headerCell.innerHTML = "重量 (kg)";
+        row.appendChild(headerCell);
+        var headerCell = document.createElement("TH");
+        headerCell.innerHTML = "金額";
+        row.appendChild(headerCell); 
 
         //Add the data rows from Excel file.
         for (var i = 0; i < excelRowsJson.length; i++) {
@@ -217,8 +188,16 @@
 				//Add the data row.
 				var row = myTable.insertRow(-1);
 			
-				//Add the data cells.
 				var cell = row.insertCell(-1);
+				var OptValue = document.getElementById("CountrySel1").value;
+				cell.innerHTML = OptValue;
+
+				var cell = row.insertCell(-1);
+				OptValue = document.getElementById("ExpressSel1").value;
+				cell.innerHTML = OptValue;
+
+				//Add the data cells.
+				cell = row.insertCell(-1);
 				cell.innerHTML = excelRowsJson[i].Weight;
 				if(OptValue == "空運(CIF)")
 				{
@@ -285,46 +264,17 @@
         //row.appendChild(headerCell);
         //Add the header cells.
         var headerCell = document.createElement("TH");
-        headerCell.innerHTML = "Weight (kg)";
+        headerCell.innerHTML = "國家";
         row.appendChild(headerCell);
-		
-		var OptValue = document.getElementById("ExpressSel2").value;
-		console.log("in_weight : "+input_weight+", xls_weight : "+xls_weight);
-		if(OptValue == "空運(CIF)")
-		{
-			headerCell = document.createElement("TH");
-			headerCell.innerHTML = "空運(CIF)";
-			row.appendChild(headerCell);
-		}
-		
-		if(OptValue == "空運(DAP)")
-		{
-			headerCell = document.createElement("TH");
-			headerCell.innerHTML = "空運(DAP)";
-			row.appendChild(headerCell);
-		}
-        
-		if(OptValue == "快遞(FEDEX)")
-		{
-			headerCell = document.createElement("TH");
-			headerCell.innerHTML = "快遞(FEDEX)";
-			row.appendChild(headerCell);
-		}
-        
-		if(OptValue == "快遞(DHL)")
-		{
-			headerCell = document.createElement("TH");
-			headerCell.innerHTML = "快遞(DHL)";
-			row.appendChild(headerCell);
-		}
-         
-		if(OptValue == "快遞(UPS)")
-		{
-			headerCell = document.createElement("TH");
-			headerCell.innerHTML = "快遞(UPS)";
-			row.appendChild(headerCell);
-		}
- 
+        var headerCell = document.createElement("TH");
+        headerCell.innerHTML = "運送方式";
+        row.appendChild(headerCell);
+        var headerCell = document.createElement("TH");
+        headerCell.innerHTML = "重量 (kg)";
+        row.appendChild(headerCell);
+        var headerCell = document.createElement("TH");
+        headerCell.innerHTML = "金額";
+        row.appendChild(headerCell); 
 
         //Add the data rows from Excel file.
         for (var i = 0; i < excelRowsJson.length; i++) {
@@ -338,8 +288,16 @@
 				//Add the data row.
 				var row = myTable.insertRow(-1);
 			
-				//Add the data cells.
 				var cell = row.insertCell(-1);
+				var OptValue = document.getElementById("CountrySel2").value;
+				cell.innerHTML = OptValue;
+
+				var cell = row.insertCell(-1);
+				OptValue = document.getElementById("ExpressSel2").value;
+				cell.innerHTML = OptValue;
+
+				//Add the data cells.
+				cell = row.insertCell(-1);
 				cell.innerHTML = excelRowsJson[i].Weight;
 				if(OptValue == "空運(CIF)")
 				{
@@ -375,6 +333,7 @@
         
  
         var ExcelTable = document.getElementById("ExcelTable");
+        ExcelTable.innerHTML = "";
         ExcelTable.appendChild(myTable);
     };
 	
