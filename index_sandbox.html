@@ -108,7 +108,7 @@
 		request.send(); 
 	}
 	function CalculatePrice() {
-		GetPriceFromExcel(excel_raw_data)
+		GetPriceFromExcel1(excel_raw_data)
 		GetPriceFromExcel2(excel_raw_data)
 	}
 	function FillContryToSelect(data)
@@ -136,12 +136,12 @@
 		
 		}
 	}
-    function GetPriceFromExcel(data) {
+    function GetPriceFromExcel1(data) {
         //Read the Excel File data in binary
         var workbook = XLSX.read(data, {
             type: 'binary'
         });
-		CountrySel = document.getElementById('CountrySel');
+		CountrySel = document.getElementById('CountrySel1');
 		CtyIdx=CountrySel.selectedIndex-1;
 		
         //get the name of First Sheet.
@@ -167,7 +167,7 @@
         headerCell.innerHTML = "Weight (kg)";
         row.appendChild(headerCell);
 		
-		var OptValue = document.getElementById("ExpressSel").value;
+		var OptValue = document.getElementById("ExpressSel1").value;
 		console.log("in_weight : "+input_weight+", xls_weight : "+xls_weight);
 		if(OptValue == "空運(CIF)")
 		{
@@ -208,7 +208,7 @@
         //Add the data rows from Excel file.
         for (var i = 0; i < excelRowsJson.length; i++) {
 			
-			var input_weight = parseFloat(document.getElementById("weight").value)
+			var input_weight = parseFloat(document.getElementById("weight1").value)
 			var xls_weight = parseFloat(excelRowsJson[i].Weight)
 			
 			console.log("in_weight : "+input_weight+", xls_weight : "+xls_weight);

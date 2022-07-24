@@ -109,6 +109,7 @@
 	}
 	function CalculatePrice() {
 		GetPriceFromExcel(excel_raw_data)
+		GetPriceFromExcel2(excel_raw_data)
 	}
 	function FillContryToSelect(data)
 	{
